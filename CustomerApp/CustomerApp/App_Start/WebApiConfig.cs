@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
 
-namespace CustomerApp
+namespace servicioEmpleo
 {
     public static class WebApiConfig
     {
@@ -14,12 +14,12 @@ namespace CustomerApp
 
             config.Routes.MapHttpRoute(
                 name: "WithActionApi",
-                routeTemplate: "api/{controller}/{action}/{customerID}"
+                routeTemplate: "api/{controller}/{action}/{vacanteID}"
             );
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{action}",
                 defaults: new { id = RouteParameter.Optional }
             );
 
