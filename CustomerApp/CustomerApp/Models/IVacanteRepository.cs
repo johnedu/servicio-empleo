@@ -9,11 +9,15 @@ namespace servicioEmpleo.Models
     public interface IVacanteRepository
     {
         IEnumerable<Vacante> GetAll();
-        IEnumerable<Vacante> GetAllVacants(string palabra, string ciudadDepartamento);
-        IEnumerable<Vacante> GetAllByEmployer(string employerUserName);
-        Vacante Get(string vacanteID);
-        Vacante Add(Vacante item);
-        bool Remove(string vacanteID);
-        bool Update(Vacante item);
+        IEnumerable<Vacante> GetAllJobs(string palabra, string ciudad, string departamento);
+        IEnumerable<Vacante> GetAllJobsMap(string palabra, string ciudad, string departamento);
+        IEnumerable<Vacante> GetAllJobsByEmployer(string employerUserName);
+        Vacante GetJob(string vacanteID);
+        string AddJob(Vacante item);
+        string RemoveJob(string vacanteID, string empleador);
+        string UpdateJob(Vacante item);
+        IEnumerable<FAQ> GetAllFAQs();
+        string AddComplaint(Denuncia item);
+        IEnumerable<Denuncia> GetAllComplaintsByJob(Int64 IdJob);
     }
 }

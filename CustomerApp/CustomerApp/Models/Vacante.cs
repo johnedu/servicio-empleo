@@ -26,6 +26,7 @@ namespace servicioEmpleo.Models
         public string Empleador { get; set; }
         public string Busqueda { get; set; }
         public int Num_denuncias { get; set; }
+        public string Estado { get; set; }
     }
 
     public class FAQ
@@ -33,5 +34,13 @@ namespace servicioEmpleo.Models
         public Int32 ID { get; set; }
         public string Pregunta { get; set; }
         public string Respuesta { get; set; }
+    }
+
+    public class Denuncia
+    {
+        public Int64 ID { get; set; }
+        public DateTime Fecha { get; set; }
+        public string Tipo { get; set; }
+        public Int64 vacanteID { get; set; }
     }
 }

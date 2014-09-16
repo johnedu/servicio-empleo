@@ -12,20 +12,24 @@ namespace servicioEmpleo.Controllers
     {
         static readonly IVacanteRepository repository = new VacanteRepository();
 
-        public IEnumerable<Vacante> obtenerVacantes(string palabra, string ciudadDepartamento)
+        public IEnumerable<Vacante> obtenerVacantes(string pal, string ciu, string dep)
         {
-            return repository.GetAllVacants(palabra, ciudadDepartamento);
+            return repository.GetAllJobs(pal, ciu, dep);
+        }
+
+        public IEnumerable<Vacante> obtenerVacantesMapa(string pal, string ciu, string dep)
+        {
+            return repository.GetAllJobsMap(pal, ciu, dep);
         }
 
         public IEnumerable<Vacante> obtenerVacantesXEmpleador(string vacanteID)
         {
-            return repository.GetAllByEmployer(vacanteID);
+            return repository.GetAllJobsByEmployer(vacanteID);
         }
-        
 
         public Vacante obtenerVacante(string vacanteID)
         {
-            Vacante vacante = repository.Get(vacanteID);
+            Vacante vacante = repository.GetJob(vacanteID);
             if (vacante == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
@@ -33,32 +37,39 @@ namespace servicioEmpleo.Controllers
             return vacante;
         }
 
-        public HttpResponseMessage agregarVante(Vacante vacante)
+        public string agregarVacante(Vacante vacante)
         {
-            vacante = repository.Add(vacante);
-            var response = Request.CreateResponse<Vacante>(HttpStatusCode.Created, vacante);
-
-            string uri = Url.Link("DefaultApi", new { vacanteID = vacante.ID });
-            response.Headers.Location = new Uri(uri);
-            return response;
+            return repository.AddJob(vacante);
         }
 
-        public void modificarVacante(Vacante vacante)
+        public string modificarVacante(Vacante vacante)
         {
-            if (!repository.Update(vacante))
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+            return repository.UpdateJob(vacante);
         }
 
-        public void eliminarVacante(string vacanteID)
+        public string eliminarVacante(string ID, string emp)
         {
-            Vacante vacante = repository.Get(vacanteID);
+            Vacante vacante = repository.GetJob(ID);
             if (vacante == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return "Elemento no encontrado";
             }
-            repository.Remove(vacanteID);
+            return repository.RemoveJob(ID, emp);
+        }
+
+        public IEnumerable<FAQ> obtenerFAQs()
+        {
+            return repository.GetAllFAQs();
+        }
+
+        public string agregarDenuncia(Denuncia denuncia)
+        {
+            return repository.AddComplaint(denuncia);
+        }
+
+        public IEnumerable<Denuncia> obtenerDenunciasXVacante(Int16 vacanteID)
+        {
+            return repository.GetAllComplaintsByJob(vacanteID);
         }
     }
 }
