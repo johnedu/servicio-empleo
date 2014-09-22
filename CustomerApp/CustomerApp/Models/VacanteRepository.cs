@@ -14,21 +14,23 @@ namespace servicioEmpleo.Models
             try {
                 string query = string.Format("SELECT [dbo].[Vacante].[ID], " +
                                                     "[dbo].[Vacante].[Titulo], " +
+                                                    "[dbo].[Vacante].[Tipo], " +
                                                     "[dbo].[Vacante].[Descripcion], " +
-                                                    "[dbo].[Vacante].[Experiencia], " +
                                                     "[dbo].[Vacante].[Num_vacantes], " +
                                                     "[dbo].[Vacante].[Cargo], " +
-                                                    "[dbo].[Vacante].[Fecha_publicacion], " +
-                                                    "[dbo].[Vacante].[Fecha_vencimiento], " +
+                                                    "[dbo].[Vacante].[Salario], " +
+                                                    "[dbo].[Vacante].[Sector], " +
+                                                    "[dbo].[Vacante].[Experiencia], " +
                                                     "[dbo].[Vacante].[Nivel_estudios], " +
                                                     "[dbo].[Vacante].[Profesion], " +
-                                                    "[dbo].[Vacante].[Salario], " +
                                                     "[dbo].[Vacante].[Municipio], " +
                                                     "[dbo].[Vacante].[Departamento], " +
-                                                    "[dbo].[Vacante].[Sector], " +
+                                                    "[dbo].[Vacante].[Fecha_publicacion], " +
+                                                    "[dbo].[Vacante].[Fecha_vencimiento], " +
                                                     "[dbo].[Vacante].[Latitud], " +
                                                     "[dbo].[Vacante].[Longitud], " +
-                                                    "[dbo].[Vacante].[Empleador] " +
+                                                    "[dbo].[Vacante].[Empleador], " +
+                                                    "[dbo].[Vacante].[Ultima_Actualizacion] " +
                                             "FROM    [dbo].[Vacante]");
 
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
@@ -43,21 +45,23 @@ namespace servicioEmpleo.Models
                             Vacante vacante = new Vacante();
                             vacante.ID = reader.GetInt64(0);
                             vacante.Titulo = reader.GetString(1);
-                            vacante.Descripcion = reader.GetString(2);
-                            vacante.Experiencia = reader.GetString(3);
+                            vacante.TipoID = reader.GetInt32(2);
+                            vacante.Descripcion = reader.GetString(3);
                             vacante.Num_vacantes = reader.GetInt32(4);
                             vacante.Cargo = reader.GetString(5);
-                            vacante.Fecha_publicacion = reader.GetDateTime(6);
-                            vacante.Fecha_vencimiento = reader.GetDateTime(7);
-                            vacante.Nivel_estudios = reader.GetString(8);
-                            vacante.Profesion = reader.GetString(9);
-                            vacante.Salario = reader.GetString(10);
-                            vacante.Municipio = reader.GetString(11);
-                            vacante.Departamento = reader.GetString(12);
-                            vacante.Sector = reader.GetString(13);
-                            vacante.Latitud = reader.GetString(14);
-                            vacante.Longitud = reader.GetString(15);
-                            vacante.Empleador = reader.GetString(16);
+                            vacante.SalarioID = reader.GetInt32(6);
+                            vacante.Sector = reader.GetString(7);
+                            vacante.ExperienciaID = reader.GetInt32(8);
+                            vacante.Nivel_estudiosID = reader.GetInt32(9);
+                            vacante.Profesion = reader.GetString(10);
+                            vacante.Municipio = reader.GetInt32(11);
+                            vacante.Departamento = reader.GetInt32(12);
+                            vacante.Fecha_publicacion = reader.GetDateTime(13);
+                            vacante.Fecha_vencimiento = reader.GetDateTime(14);
+                            vacante.Latitud = reader.GetString(15);
+                            vacante.Longitud = reader.GetString(16);
+                            vacante.Empleador = reader.GetString(17);
+                            vacante.Ultima_Actualizacion = reader.GetDateTime(18);
 
                             vacantes.Add(vacante);
                         }
@@ -72,11 +76,11 @@ namespace servicioEmpleo.Models
             return vacantes.ToArray();
         }
 
-        public IEnumerable<Vacante> GetAllJobs(string palabra, string ciudad, string departamento)
+        public IEnumerable<Vacante> GetAllJobs(string palabra, string tipo, string salario, string experiencia, string nivel, string municipio)
         {
             List<Vacante> vacantes = new List<Vacante>();
             try {
-                string query = string.Format("EXEC [stp_Vacantes_FullTextSearch] '" + palabra + "', '" + ciudad + "', '" + departamento + "', 'N' WITH RECOMPILE");
+                string query = string.Format("EXEC [stp_Vacantes_FullTextSearch] '" + palabra + "', " + tipo + ", " + salario + ", " + experiencia + ", " + nivel + ", " + municipio + ", 'N' WITH RECOMPILE");
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -89,22 +93,24 @@ namespace servicioEmpleo.Models
                             Vacante vacante = new Vacante();
                             vacante.ID = reader.GetInt64(0);
                             vacante.Titulo = reader.GetString(1);
-                            vacante.Descripcion = reader.GetString(2);
-                            vacante.Experiencia = reader.GetString(3);
+                            vacante.Tipo = reader.GetString(2);
+                            vacante.Descripcion = reader.GetString(3);
                             vacante.Num_vacantes = reader.GetInt32(4);
                             vacante.Cargo = reader.GetString(5);
-                            vacante.Fecha_publicacion = reader.GetDateTime(6);
-                            vacante.Fecha_vencimiento = reader.GetDateTime(7);
-                            vacante.Nivel_estudios = reader.GetString(8);
-                            vacante.Profesion = reader.GetString(9);
-                            vacante.Salario = reader.GetString(10);
-                            vacante.Municipio = reader.GetString(11);
-                            vacante.Departamento = reader.GetString(12);
-                            vacante.Sector = reader.GetString(13);
-                            vacante.Latitud = reader.GetString(14);
-                            vacante.Longitud = reader.GetString(15);
-                            vacante.Empleador = reader.GetString(16);
-
+                            vacante.Salario = reader.GetString(6);
+                            vacante.Sector = reader.GetString(7);
+                            vacante.Experiencia = reader.GetString(8);
+                            vacante.Nivel_estudios = reader.GetString(9);
+                            vacante.Profesion = reader.GetString(10);
+                            vacante.Municipio = reader.GetInt32(11);
+                            vacante.Departamento = reader.GetInt32(12);
+                            vacante.Fecha_publicacion = reader.GetDateTime(13);
+                            vacante.Fecha_vencimiento = reader.GetDateTime(14);
+                            vacante.Latitud = reader.GetString(15);
+                            vacante.Longitud = reader.GetString(16);
+                            vacante.Empleador = reader.GetString(17);
+                            vacante.Ultima_Actualizacion = reader.GetDateTime(18);
+                            vacante.DiasVence = reader.GetInt32(19);
                             vacantes.Add(vacante);
                         }
                         con.Close();
@@ -118,11 +124,11 @@ namespace servicioEmpleo.Models
             return vacantes.ToArray();
         }
 
-        public IEnumerable<Vacante> GetAllJobsMap(string palabra, string ciudad, string departamento)
+        public IEnumerable<Vacante> GetAllJobsMap(string palabra, string tipo, string salario, string experiencia, string nivel, string municipio)
         {
             List<Vacante> vacantes = new List<Vacante>();
             try {
-                string query = string.Format("EXEC [stp_Vacantes_FullTextSearch] '" + palabra + "', '" + ciudad + "', '" + departamento + "', 'M' WITH RECOMPILE");
+                string query = string.Format("EXEC [stp_Vacantes_FullTextSearch] '" + palabra + "', " + tipo + ", " + salario + ", " + experiencia + ", " + nivel + ", " + municipio + ", 'M' WITH RECOMPILE");
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -135,21 +141,8 @@ namespace servicioEmpleo.Models
                             Vacante vacante = new Vacante();
                             vacante.ID = reader.GetInt64(0);
                             vacante.Titulo = reader.GetString(1);
-                            vacante.Descripcion = reader.GetString(2);
-                            vacante.Experiencia = reader.GetString(3);
-                            vacante.Num_vacantes = reader.GetInt32(4);
-                            vacante.Cargo = reader.GetString(5);
-                            vacante.Fecha_publicacion = reader.GetDateTime(6);
-                            vacante.Fecha_vencimiento = reader.GetDateTime(7);
-                            vacante.Nivel_estudios = reader.GetString(8);
-                            vacante.Profesion = reader.GetString(9);
-                            vacante.Salario = reader.GetString(10);
-                            vacante.Municipio = reader.GetString(11);
-                            vacante.Departamento = reader.GetString(12);
-                            vacante.Sector = reader.GetString(13);
-                            vacante.Latitud = reader.GetString(14);
-                            vacante.Longitud = reader.GetString(15);
-                            vacante.Empleador = reader.GetString(16);
+                            vacante.Latitud = reader.GetString(2);
+                            vacante.Longitud = reader.GetString(3);
 
                             vacantes.Add(vacante);
                         }
@@ -170,24 +163,26 @@ namespace servicioEmpleo.Models
             try {
                 string query = string.Format("SELECT [dbo].[Vacante].[ID], " +
                                                     "[dbo].[Vacante].[Titulo], " +
+                                                    "[dbo].[Vacante].[Tipo], " +
                                                     "[dbo].[Vacante].[Descripcion], " +
-                                                    "[dbo].[Vacante].[Experiencia], " +
                                                     "[dbo].[Vacante].[Num_vacantes], " +
                                                     "[dbo].[Vacante].[Cargo], " +
-                                                    "[dbo].[Vacante].[Fecha_publicacion], " +
-                                                    "[dbo].[Vacante].[Fecha_vencimiento], " +
+                                                    "[dbo].[Vacante].[Salario], " +
+                                                    "[dbo].[Vacante].[Sector], " +
+                                                    "[dbo].[Vacante].[Experiencia], " +
                                                     "[dbo].[Vacante].[Nivel_estudios], " +
                                                     "[dbo].[Vacante].[Profesion], " +
-                                                    "[dbo].[Vacante].[Salario], " +
                                                     "[dbo].[Vacante].[Municipio], " +
                                                     "[dbo].[Vacante].[Departamento], " +
-                                                    "[dbo].[Vacante].[Sector], " +
+                                                    "[dbo].[Vacante].[Fecha_publicacion], " +
+                                                    "[dbo].[Vacante].[Fecha_vencimiento], " +
                                                     "[dbo].[Vacante].[Latitud], " +
                                                     "[dbo].[Vacante].[Longitud], " +
                                                     "[dbo].[Vacante].[Empleador], " +
-                                                    "[dbo].[Vacante].[Estado] " +
+                                                    "[dbo].[Vacante].[Ultima_Actualizacion] " +
                                             "FROM    [dbo].[Vacante] " +
-                                            "WHERE   [dbo].[Vacante].[Empleador] = '" + employerUserName + "'");
+                                            "WHERE   [dbo].[Vacante].[Empleador] = '" + employerUserName + "'" +
+                                            "AND     ([dbo].[Vacante].[Estado] = 'A' OR [dbo].[Vacante].[Estado] = 'I')");
 
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
                 {
@@ -201,22 +196,23 @@ namespace servicioEmpleo.Models
                             Vacante vacante = new Vacante();
                             vacante.ID = reader.GetInt64(0);
                             vacante.Titulo = reader.GetString(1);
-                            vacante.Descripcion = reader.GetString(2);
-                            vacante.Experiencia = reader.GetString(3);
+                            vacante.TipoID = reader.GetInt32(2);
+                            vacante.Descripcion = reader.GetString(3);
                             vacante.Num_vacantes = reader.GetInt32(4);
                             vacante.Cargo = reader.GetString(5);
-                            vacante.Fecha_publicacion = reader.GetDateTime(6);
-                            vacante.Fecha_vencimiento = reader.GetDateTime(7);
-                            vacante.Nivel_estudios = reader.GetString(8);
-                            vacante.Profesion = reader.GetString(9);
-                            vacante.Salario = reader.GetString(10);
-                            vacante.Municipio = reader.GetString(11);
-                            vacante.Departamento = reader.GetString(12);
-                            vacante.Sector = reader.GetString(13);
-                            vacante.Latitud = reader.GetString(14);
-                            vacante.Longitud = reader.GetString(15);
-                            vacante.Empleador = reader.GetString(16);
-                            vacante.Estado = reader.GetString(17);
+                            vacante.SalarioID = reader.GetInt32(6);
+                            vacante.Sector = reader.GetString(7);
+                            vacante.ExperienciaID = reader.GetInt32(8);
+                            vacante.Nivel_estudiosID = reader.GetInt32(9);
+                            vacante.Profesion = reader.GetString(10);
+                            vacante.Municipio = reader.GetInt32(11);
+                            vacante.Departamento = reader.GetInt32(12);
+                            vacante.Fecha_publicacion = reader.GetDateTime(13);
+                            vacante.Fecha_vencimiento = reader.GetDateTime(14);
+                            vacante.Latitud = reader.GetString(15);
+                            vacante.Longitud = reader.GetString(16);
+                            vacante.Empleador = reader.GetString(17);
+                            vacante.Ultima_Actualizacion = reader.GetDateTime(18);
 
                             vacantes.Add(vacante);
                         }
@@ -237,21 +233,23 @@ namespace servicioEmpleo.Models
             try {
                 string query = string.Format("SELECT [dbo].[Vacante].[ID], " +
                                                     "[dbo].[Vacante].[Titulo], " +
+                                                    "[dbo].[Vacante].[Tipo], " +
                                                     "[dbo].[Vacante].[Descripcion], " +
-                                                    "[dbo].[Vacante].[Experiencia], " +
                                                     "[dbo].[Vacante].[Num_vacantes], " +
                                                     "[dbo].[Vacante].[Cargo], " +
-                                                    "[dbo].[Vacante].[Fecha_publicacion], " +
-                                                    "[dbo].[Vacante].[Fecha_vencimiento], " +
+                                                    "[dbo].[Vacante].[Salario], " +
+                                                    "[dbo].[Vacante].[Sector], " +
+                                                    "[dbo].[Vacante].[Experiencia], " +
                                                     "[dbo].[Vacante].[Nivel_estudios], " +
                                                     "[dbo].[Vacante].[Profesion], " +
-                                                    "[dbo].[Vacante].[Salario], " +
                                                     "[dbo].[Vacante].[Municipio], " +
                                                     "[dbo].[Vacante].[Departamento], " +
-                                                    "[dbo].[Vacante].[Sector], " +
+                                                    "[dbo].[Vacante].[Fecha_publicacion], " +
+                                                    "[dbo].[Vacante].[Fecha_vencimiento], " +
                                                     "[dbo].[Vacante].[Latitud], " +
                                                     "[dbo].[Vacante].[Longitud], " +
-                                                    "[dbo].[Vacante].[Empleador] " +
+                                                    "[dbo].[Vacante].[Empleador], " +
+                                                    "[dbo].[Vacante].[Ultima_Actualizacion] " +
                                             "FROM    [dbo].[Vacante]" +
                                             "WHERE   [dbo].[Vacante].[ID] = " + vacanteID);
 
@@ -266,21 +264,23 @@ namespace servicioEmpleo.Models
                         {
                             vacante.ID = reader.GetInt64(0);
                             vacante.Titulo = reader.GetString(1);
-                            vacante.Descripcion = reader.GetString(2);
-                            vacante.Experiencia = reader.GetString(3);
+                            vacante.TipoID = reader.GetInt32(2);
+                            vacante.Descripcion = reader.GetString(3);
                             vacante.Num_vacantes = reader.GetInt32(4);
                             vacante.Cargo = reader.GetString(5);
-                            vacante.Fecha_publicacion = reader.GetDateTime(6);
-                            vacante.Fecha_vencimiento = reader.GetDateTime(7);
-                            vacante.Nivel_estudios = reader.GetString(8);
-                            vacante.Profesion = reader.GetString(9);
-                            vacante.Salario = reader.GetString(10);
-                            vacante.Municipio = reader.GetString(11);
-                            vacante.Departamento = reader.GetString(12);
-                            vacante.Sector = reader.GetString(13);
-                            vacante.Latitud = reader.GetString(14);
-                            vacante.Longitud = reader.GetString(15);
-                            vacante.Empleador = reader.GetString(16);                
+                            vacante.SalarioID = reader.GetInt32(6);
+                            vacante.Sector = reader.GetString(7);
+                            vacante.ExperienciaID = reader.GetInt32(8);
+                            vacante.Nivel_estudiosID = reader.GetInt32(9);
+                            vacante.Profesion = reader.GetString(10);
+                            vacante.Municipio = reader.GetInt32(11);
+                            vacante.Departamento = reader.GetInt32(12);
+                            vacante.Fecha_publicacion = reader.GetDateTime(13);
+                            vacante.Fecha_vencimiento = reader.GetDateTime(14);
+                            vacante.Latitud = reader.GetString(15);
+                            vacante.Longitud = reader.GetString(16);
+                            vacante.Empleador = reader.GetString(17);
+                            vacante.Ultima_Actualizacion = reader.GetDateTime(18);           
                         }
                         con.Close(); 
                     }
@@ -296,62 +296,68 @@ namespace servicioEmpleo.Models
         public string AddJob(Vacante item)
         {
             item.Busqueda = item.Titulo + " " + item.Descripcion + " " + item.Cargo + " " + item.Profesion;
+            item.Busqueda = item.Busqueda.ToLower();
             item.Num_denuncias = 0;
             item.Estado = "A";
             try {
                 string query = string.Format("INSERT INTO [dbo].[Vacante] " +
                                                 "([Titulo], " +
+                                                "[Tipo], " +
                                                 "[Descripcion], " +
-                                                "[Experiencia], " +
                                                 "[Num_vacantes], " +
                                                 "[Cargo], " +
-                                                "[Fecha_publicacion], " +
-                                                "[Fecha_vencimiento], " +
+                                                "[Salario], " +
+                                                "[Sector], " +
+                                                "[Experiencia], " +
                                                 "[Nivel_estudios], " +
                                                 "[Profesion], " +
-                                                "[Salario], " +
                                                 "[Municipio], " +
                                                 "[Departamento], " +
-                                                "[Sector], " +
+                                                "[Fecha_publicacion], " +
+                                                "[Fecha_vencimiento], " +
                                                 "[Latitud], " +
                                                 "[Longitud], " +
                                                 "[Empleador], " +
                                                 "[Busqueda], " +
                                                 "[Num_denuncias], " +
-                                                "[Estado]) " +
+                                                "[Estado], " +
+                                                "[Ultima_Actualizacion]) " +
                                             "VALUES " +
                                                 "('{0}', " +
-                                                "'{1}', " +
+                                                "{1}, " +
                                                 "'{2}', " +
                                                 "{3}, " +
                                                 "'{4}', " +
-                                                "'{5}', " +
+                                                "{5}, " +
                                                 "'{6}', " +
-                                                "'{7}', " +
-                                                "'{8}', " +
+                                                "{7}, " +
+                                                "{8}, " +
                                                 "'{9}', " +
-                                                "'{10}', " +
-                                                "'{11}', " +
+                                                "{10}, " +
+                                                "{11}, " +
                                                 "'{12}', " +
                                                 "'{13}', " +
                                                 "'{14}', " +
                                                 "'{15}', " +
                                                 "'{16}', " +
                                                 "'{17}', " +
-                                                "'{18}')",
+                                                "'{18}', " +
+                                                "'{19}', " +
+                                                "GETDATE())",
                                              item.Titulo, 
+                                             item.TipoID, 
                                              item.Descripcion, 
-                                             item.Experiencia, 
                                              item.Num_vacantes, 
                                              item.Cargo,
-                                             String.Format("{0:u}", item.Fecha_publicacion),
-                                             String.Format("{0:u}", item.Fecha_vencimiento), 
-                                             item.Nivel_estudios, 
-                                             item.Profesion, 
-                                             item.Salario, 
-                                             item.Municipio.ToUpper(),
-                                             item.Departamento.ToUpper(), 
+                                             item.SalarioID,
                                              item.Sector, 
+                                             item.ExperienciaID,
+                                             item.Nivel_estudiosID,
+                                             item.Profesion,
+                                             item.Municipio,
+                                             item.Departamento, 
+                                             item.Fecha_publicacion.ToString("yyyy-MM-dd HH:mm:ss"),
+                                             item.Fecha_vencimiento.ToString("yyyy-MM-dd HH:mm:ss"),
                                              item.Latitud, 
                                              item.Longitud, 
                                              item.Empleador,
@@ -379,10 +385,43 @@ namespace servicioEmpleo.Models
             }
         }
 
-        public string RemoveJob(string vacanteID, string empleador)
+        //public string RemoveJob(string vacanteID, string empleador)
+        //{
+        //    try {
+        //        string query = string.Format("DELETE FROM [dbo].[Vacante] WHERE [dbo].[Vacante].[ID] = {0} AND [dbo].[Vacante].[Empleador] = '{1}'", vacanteID, empleador);
+        //        using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+        //        {
+        //            using (SqlCommand cmd = new SqlCommand(query, con))
+        //            {
+        //                con.Open();
+        //                int n = cmd.ExecuteNonQuery();
+        //                con.Close();
+        //                if(n > 0)
+        //                    return "Vacante eliminada correctamente";
+        //                else
+        //                    return "La vacante no pertenece al usuario";
+        //            }
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return "Ocurrió un error al eliminar la vacante";
+        //        //return e.Message;
+        //    }
+        //}
+
+        public string InactivateJob(string vacanteID, string empleador)
         {
-            try {
-                string query = string.Format("DELETE FROM [dbo].[Vacante] WHERE [dbo].[Vacante].[ID] = {0} AND [dbo].[Vacante].[Empleador] = '{1}'", vacanteID, empleador);
+            try
+            {
+                string query = string.Format("UPDATE [dbo].[Vacante] " +
+                                            "SET [dbo].[Vacante].[Estado] = 'I', " +
+                                            "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE() " +
+                                            "WHERE [dbo].[Vacante].[ID] = {0} " +
+                                            "AND [dbo].[Vacante].[Empleador] = '{1}' ",
+                                            vacanteID,
+                                            empleador);
+
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -390,7 +429,39 @@ namespace servicioEmpleo.Models
                         con.Open();
                         int n = cmd.ExecuteNonQuery();
                         con.Close();
-                        if(n > 0)
+                        if (n > 0)
+                            return "Vacante inactivada correctamente";
+                        else
+                            return "La vacante no pertenece al usuario";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return "Ocurrió un error al inactivar la vacante";
+                //return e.Message;
+            }
+        }
+
+        public string RemoveJob(string vacanteID, string empleador)
+        {
+            try
+            {
+                string query = string.Format("UPDATE [dbo].[Vacante] " +
+                                            "SET [dbo].[Vacante].[Estado] = 'R', " +
+                                            "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE() " +
+                                            "WHERE [dbo].[Vacante].[ID] = {0} " +
+                                            "AND [dbo].[Vacante].[Empleador] = '{1}' ",
+                                            vacanteID,
+                                            empleador);
+                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        con.Open();
+                        int n = cmd.ExecuteNonQuery();
+                        con.Close();
+                        if (n > 0)
                             return "Vacante eliminada correctamente";
                         else
                             return "La vacante no pertenece al usuario";
@@ -406,43 +477,47 @@ namespace servicioEmpleo.Models
 
         public string UpdateJob(Vacante item)
         {
-            try {
+            try
+            {
                 string query = string.Format("UPDATE [dbo].[Vacante] " +
                                             "SET [dbo].[Vacante].[Titulo] = '{0}', " +
-                                                "[dbo].[Vacante].[Descripcion] = '{1}', " +
-                                                "[dbo].[Vacante].[Experiencia] = '{2}', " +
+                                                "[dbo].[Vacante].[Tipo] = {1}, " +
+                                                "[dbo].[Vacante].[Descripcion] = '{2}', " +
                                                 "[dbo].[Vacante].[Num_vacantes] = {3}, " +
                                                 "[dbo].[Vacante].[Cargo] = '{4}', " +
-                                                "[dbo].[Vacante].[Fecha_publicacion] = '{5}', " +
-                                                "[dbo].[Vacante].[Fecha_vencimiento] = '{6}', " +
-                                                "[dbo].[Vacante].[Nivel_estudios] = '{7}', " +
-                                                "[dbo].[Vacante].[Profesion] = '{8}', " +
-                                                "[dbo].[Vacante].[Salario] = '{9}', " +
-                                                "[dbo].[Vacante].[Municipio] = '{10}', " +
-                                                "[dbo].[Vacante].[Departamento] = '{11}', " +
-                                                "[dbo].[Vacante].[Sector] = '{12}', " +
-                                                "[dbo].[Vacante].[Latitud] = '{13}', " +
-                                                "[dbo].[Vacante].[Longitud] = '{14}', " +
-                                                "[dbo].[Vacante].[Empleador] = '{15}' " +
-                                            "WHERE [dbo].[Vacante].[ID] = {16}", 
-                                            item.Titulo, 
-                                            item.Descripcion, 
-                                            item.Experiencia, 
-                                            item.Num_vacantes, 
+                                                "[dbo].[Vacante].[Salario] = {5}, " +
+                                                "[dbo].[Vacante].[Sector] = '{6}', " +
+                                                "[dbo].[Vacante].[Experiencia] = {7}, " +
+                                                "[dbo].[Vacante].[Nivel_estudios] = {8}, " +
+                                                "[dbo].[Vacante].[Profesion] = '{9}', " +
+                                                "[dbo].[Vacante].[Municipio] = {10}, " +
+                                                "[dbo].[Vacante].[Departamento] = {11}, " +
+                                                "[dbo].[Vacante].[Fecha_publicacion] = '{12}', " +
+                                                "[dbo].[Vacante].[Fecha_vencimiento] = '{13}', " +
+                                                "[dbo].[Vacante].[Latitud] = '{14}', " +
+                                                "[dbo].[Vacante].[Longitud] = '{15}', " +
+                                                "[dbo].[Vacante].[Empleador] = '{16}', " +
+                                                "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE() " +
+                                            "WHERE [dbo].[Vacante].[ID] = {17}",
+                                            item.Titulo,
+                                            item.TipoID,
+                                            item.Descripcion,
+                                            item.Num_vacantes,
                                             item.Cargo,
-                                            String.Format("{0:u}", item.Fecha_publicacion),
-                                            String.Format("{0:u}", item.Fecha_vencimiento),
-                                            item.Nivel_estudios,
+                                            item.SalarioID,
+                                            item.Sector,
+                                            item.ExperienciaID,
+                                            item.Nivel_estudiosID,
                                             item.Profesion,
-                                            item.Salario,
-                                            item.Municipio.ToUpper(),
-                                            item.Departamento.ToUpper(), 
-                                            item.Sector, 
-                                            item.Latitud, 
-                                            item.Longitud, 
-                                            item.Empleador, 
-                                            item.ID);                    
-            
+                                            item.Municipio,
+                                            item.Departamento,
+                                            item.Fecha_publicacion.ToString("yyyy-MM-dd HH:mm:ss"),
+                                            item.Fecha_vencimiento.ToString("yyyy-MM-dd HH:mm:ss"),
+                                            item.Latitud,
+                                            item.Longitud,
+                                            item.Empleador,
+                                            item.ID);
+
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -521,7 +596,25 @@ namespace servicioEmpleo.Models
                         int n = cmd.ExecuteNonQuery();
                         con.Close();
                         if (n > 0)
+                        {
+                            string query2 = string.Format("UPDATE [dbo].[Vacante] " +
+                                            "SET [dbo].[Vacante].[Num_denuncias] = [dbo].[Vacante].[Num_denuncias] + 1 " +
+                                            "WHERE [dbo].[Vacante].[ID] = {0} ",
+                                            item.vacanteID);
+                            using (SqlConnection con2 = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                            {
+                                using (SqlCommand cmd2 = new SqlCommand(query2, con2))
+                                {
+                                    con2.Open();
+                                    cmd2.ExecuteNonQuery();
+                                    con2.Close();
+                                }
+                            }
+
+                            RemoveJobComplaints(item.vacanteID.ToString());
+
                             return "Denuncia creada correctamente";
+                        }
                         else
                             return "Ocurrió un error al crear la denuncia";
                     }
@@ -530,6 +623,38 @@ namespace servicioEmpleo.Models
             catch (Exception e)
             {
                 return "Ocurrió un error al crear la denuncia";
+                //return e.Message;
+            }
+        }
+
+        public string RemoveJobComplaints(string vacanteID)
+        {
+            try
+            {
+                string query = string.Format("UPDATE [dbo].[Vacante] " +
+                                            "SET [dbo].[Vacante].[Estado] = 'R', " +
+                                            "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE() " +
+                                            "WHERE [dbo].[Vacante].[ID] = {0} " +
+                                            "AND [dbo].[Vacante].[Num_denuncias] > 2 ",
+                                            vacanteID);
+
+                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        con.Open();
+                        int n = cmd.ExecuteNonQuery();
+                        con.Close();
+                        if (n > 0)
+                            return "Vacante eliminada correctamente";
+                        else
+                            return "La vacante no pertenece al usuario";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return "Ocurrió un error al eliminar la vacante";
                 //return e.Message;
             }
         }

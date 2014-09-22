@@ -12,19 +12,19 @@ namespace servicioEmpleo.Controllers
     {
         static readonly IVacanteRepository repository = new VacanteRepository();
 
-        public IEnumerable<Vacante> obtenerVacantes(string pal, string ciu, string dep)
+        public IEnumerable<Vacante> obtenerVacantes(string palabra, string tipo, string salario, string experiencia, string nivel, string municipio)
         {
-            return repository.GetAllJobs(pal, ciu, dep);
+            return repository.GetAllJobs(palabra, tipo, salario, experiencia, nivel, municipio);
         }
 
-        public IEnumerable<Vacante> obtenerVacantesMapa(string pal, string ciu, string dep)
+        public IEnumerable<Vacante> obtenerVacantesMapa(string palabra, string tipo, string salario, string experiencia, string nivel, string municipio)
         {
-            return repository.GetAllJobsMap(pal, ciu, dep);
+            return repository.GetAllJobsMap(palabra, tipo, salario, experiencia, nivel, municipio);
         }
 
-        public IEnumerable<Vacante> obtenerVacantesXEmpleador(string vacanteID)
+        public IEnumerable<Vacante> obtenerVacantesXEmpleador(string empleador)
         {
-            return repository.GetAllJobsByEmployer(vacanteID);
+            return repository.GetAllJobsByEmployer(empleador);
         }
 
         public Vacante obtenerVacante(string vacanteID)
@@ -47,14 +47,24 @@ namespace servicioEmpleo.Controllers
             return repository.UpdateJob(vacante);
         }
 
-        public string eliminarVacante(string ID, string emp)
+        public string eliminarVacante(string ID, string empleador)
         {
             Vacante vacante = repository.GetJob(ID);
             if (vacante == null)
             {
                 return "Elemento no encontrado";
             }
-            return repository.RemoveJob(ID, emp);
+            return repository.RemoveJob(ID, empleador);
+        }
+
+        public string inactivarVacante(string ID, string empleador)
+        {
+            Vacante vacante = repository.GetJob(ID);
+            if (vacante == null)
+            {
+                return "Elemento no encontrado";
+            }
+            return repository.InactivateJob(ID, empleador);
         }
 
         public IEnumerable<FAQ> obtenerFAQs()
