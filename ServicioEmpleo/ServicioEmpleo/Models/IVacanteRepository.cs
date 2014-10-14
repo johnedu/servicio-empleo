@@ -15,7 +15,7 @@ namespace servicioEmpleo.Models
         Vacante GetJob(string vacanteID);
         string AddJob(Vacante item);
         string RemoveJob(string vacanteID, string empleador);
-        string InactivateJob(string vacanteID, string empleador);
+        string ChangeStateJob(string vacanteID, string empleador, string estado);
         string UpdateJob(Vacante item);
         IEnumerable<FAQ> GetAllFAQs();
         string AddComplaint(Denuncia item);

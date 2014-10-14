@@ -111,6 +111,11 @@ namespace servicioEmpleo.Models
                             vacante.Empleador = reader.GetString(17);
                             vacante.Ultima_Actualizacion = reader.GetDateTime(18);
                             vacante.DiasVence = reader.GetInt32(19);
+                            vacante.Telefono = reader.GetString(20);
+                            vacante.Indicativo = reader.GetString(21);
+                            vacante.Celular = reader.GetString(22);
+                            vacante.Direccion = reader.GetString(23);
+                            vacante.Email = reader.GetString(24);
                             vacantes.Add(vacante);
                         }
                         con.Close();
@@ -179,7 +184,15 @@ namespace servicioEmpleo.Models
                                                     "[dbo].[Vacante].[Latitud], " +
                                                     "[dbo].[Vacante].[Longitud], " +
                                                     "[dbo].[Vacante].[Empleador], " +
-                                                    "[dbo].[Vacante].[Ultima_Actualizacion] " +
+                                                    "[dbo].[Vacante].[Ultima_Actualizacion]," +
+                                                    "CASE WHEN GETDATE() BETWEEN [dbo].[Vacante].[Fecha_publicacion] AND [dbo].[Vacante].[Fecha_vencimiento] " +
+                                                        "THEN [dbo].[Vacante].[Estado] " +
+                                                        "ELSE 'I' END AS Estado, " +
+                                                    "[dbo].[Vacante].[Telefono], " +
+                                                    "[dbo].[Vacante].[Indicativo], " +
+                                                    "[dbo].[Vacante].[Celular], " +
+                                                    "[dbo].[Vacante].[Direccion], " +
+                                                    "[dbo].[Vacante].[Email]" +
                                             "FROM    [dbo].[Vacante] " +
                                             "WHERE   [dbo].[Vacante].[Empleador] = '" + employerUserName + "'" +
                                             "AND     ([dbo].[Vacante].[Estado] = 'A' OR [dbo].[Vacante].[Estado] = 'I')");
@@ -213,7 +226,12 @@ namespace servicioEmpleo.Models
                             vacante.Longitud = reader.GetString(16);
                             vacante.Empleador = reader.GetString(17);
                             vacante.Ultima_Actualizacion = reader.GetDateTime(18);
-
+                            vacante.Estado = reader.GetString(19);
+                            vacante.Telefono = reader.GetString(20);
+                            vacante.Indicativo = reader.GetString(21);
+                            vacante.Celular = reader.GetString(22);
+                            vacante.Direccion = reader.GetString(23);
+                            vacante.Email = reader.GetString(24);
                             vacantes.Add(vacante);
                         }
                         con.Close();
@@ -249,7 +267,15 @@ namespace servicioEmpleo.Models
                                                     "[dbo].[Vacante].[Latitud], " +
                                                     "[dbo].[Vacante].[Longitud], " +
                                                     "[dbo].[Vacante].[Empleador], " +
-                                                    "[dbo].[Vacante].[Ultima_Actualizacion] " +
+                                                    "[dbo].[Vacante].[Ultima_Actualizacion], " +
+                                                    "CASE WHEN GETDATE() BETWEEN [dbo].[Vacante].[Fecha_publicacion] AND [dbo].[Vacante].[Fecha_vencimiento] " +
+                                                        "THEN [dbo].[Vacante].[Estado] " +
+                                                        "ELSE 'I' END AS Estado, " +
+                                                    "[dbo].[Vacante].[Telefono], " +
+                                                    "[dbo].[Vacante].[Indicativo], " +
+                                                    "[dbo].[Vacante].[Celular], " +
+                                                    "[dbo].[Vacante].[Direccion], " +
+                                                    "[dbo].[Vacante].[Email]" +
                                             "FROM    [dbo].[Vacante]" +
                                             "WHERE   [dbo].[Vacante].[ID] = " + vacanteID);
 
@@ -280,7 +306,13 @@ namespace servicioEmpleo.Models
                             vacante.Latitud = reader.GetString(15);
                             vacante.Longitud = reader.GetString(16);
                             vacante.Empleador = reader.GetString(17);
-                            vacante.Ultima_Actualizacion = reader.GetDateTime(18);           
+                            vacante.Ultima_Actualizacion = reader.GetDateTime(18);
+                            vacante.Estado = reader.GetString(19);
+                            vacante.Telefono = reader.GetString(20);
+                            vacante.Indicativo = reader.GetString(21);
+                            vacante.Celular = reader.GetString(22);
+                            vacante.Direccion = reader.GetString(23);
+                            vacante.Email = reader.GetString(24);
                         }
                         con.Close(); 
                     }
@@ -321,7 +353,12 @@ namespace servicioEmpleo.Models
                                                 "[Busqueda], " +
                                                 "[Num_denuncias], " +
                                                 "[Estado], " +
-                                                "[Ultima_Actualizacion]) " +
+                                                "[Ultima_Actualizacion], " +
+                                                "[Telefono], " +
+                                                "[Indicativo], " +
+                                                "[Celular], " +
+                                                "[Direccion], " +
+                                                "[Email]) " +
                                             "VALUES " +
                                                 "('{0}', " +
                                                 "{1}, " +
@@ -343,7 +380,12 @@ namespace servicioEmpleo.Models
                                                 "'{17}', " +
                                                 "'{18}', " +
                                                 "'{19}', " +
-                                                "GETDATE())",
+                                                "GETDATE()," +
+                                                "'{20}', " +
+                                                "'{21}', " +
+                                                "'{22}', " +
+                                                "'{23}', " +
+                                                "'{24}')",
                                              item.Titulo, 
                                              item.TipoID, 
                                              item.Descripcion, 
@@ -363,7 +405,12 @@ namespace servicioEmpleo.Models
                                              item.Empleador,
                                              item.Busqueda,
                                              item.Num_denuncias,
-                                             item.Estado);
+                                             item.Estado,
+                                             item.Telefono,
+                                             item.Indicativo,
+                                             item.Celular,
+                                             item.Direccion,
+                                             item.Email);
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -410,12 +457,12 @@ namespace servicioEmpleo.Models
         //    }
         //}
 
-        public string InactivateJob(string vacanteID, string empleador)
+        public string ChangeStateJob(string vacanteID, string empleador, string estado)
         {
             try
             {
                 string query = string.Format("UPDATE [dbo].[Vacante] " +
-                                            "SET [dbo].[Vacante].[Estado] = 'I', " +
+                                            "SET [dbo].[Vacante].[Estado] = '" + estado + "', " +
                                             "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE() " +
                                             "WHERE [dbo].[Vacante].[ID] = {0} " +
                                             "AND [dbo].[Vacante].[Empleador] = '{1}' ",
@@ -430,7 +477,10 @@ namespace servicioEmpleo.Models
                         int n = cmd.ExecuteNonQuery();
                         con.Close();
                         if (n > 0)
-                            return "Vacante inactivada correctamente";
+                            if (estado.Equals("I"))
+                                return "Vacante inactivada correctamente";
+                            else
+                                return "Vacante activada correctamente";
                         else
                             return "La vacante no pertenece al usuario";
                     }
@@ -497,8 +547,13 @@ namespace servicioEmpleo.Models
                                                 "[dbo].[Vacante].[Latitud] = '{14}', " +
                                                 "[dbo].[Vacante].[Longitud] = '{15}', " +
                                                 "[dbo].[Vacante].[Empleador] = '{16}', " +
-                                                "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE() " +
-                                            "WHERE [dbo].[Vacante].[ID] = {17}",
+                                                "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE(), " +
+                                                "[dbo].[Vacante].[Empleador] = '{17}', " +
+                                                "[dbo].[Vacante].[Empleador] = '{18}', " +
+                                                "[dbo].[Vacante].[Empleador] = '{19}', " +
+                                                "[dbo].[Vacante].[Empleador] = '{20}', " +
+                                                "[dbo].[Vacante].[Empleador] = '{21}'" +
+                                            "WHERE [dbo].[Vacante].[ID] = {22}",
                                             item.Titulo,
                                             item.TipoID,
                                             item.Descripcion,
@@ -516,6 +571,11 @@ namespace servicioEmpleo.Models
                                             item.Latitud,
                                             item.Longitud,
                                             item.Empleador,
+                                            item.Telefono,
+                                            item.Indicativo,
+                                            item.Celular,
+                                            item.Direccion,
+                                            item.Email,
                                             item.ID);
 
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))

@@ -34,6 +34,11 @@ namespace servicioEmpleo.Models
         public string Estado { get; set; }
         public DateTime Ultima_Actualizacion { get; set; }
         public int DiasVence { get; set; }
+        public string Telefono { get; set; }
+        public string Indicativo { get; set; }
+        public string Celular { get; set; }
+        public string Direccion { get; set; }
+        public string Email { get; set; }
     }
 
     public class FAQ

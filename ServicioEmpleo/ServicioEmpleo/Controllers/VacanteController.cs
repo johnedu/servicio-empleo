@@ -57,14 +57,14 @@ namespace servicioEmpleo.Controllers
             return repository.RemoveJob(ID, empleador);
         }
 
-        public string inactivarVacante(string ID, string empleador)
+        public string cambiarEstadoVacante(string ID, string empleador, string estado)
         {
             Vacante vacante = repository.GetJob(ID);
             if (vacante == null)
             {
                 return "Elemento no encontrado";
             }
-            return repository.InactivateJob(ID, empleador);
+            return repository.ChangeStateJob(ID, empleador, estado);
         }
 
         public IEnumerable<FAQ> obtenerFAQs()
