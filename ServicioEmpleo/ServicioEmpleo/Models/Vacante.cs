@@ -54,5 +54,8 @@ namespace servicioEmpleo.Models
         public DateTime Fecha { get; set; }
         public string Tipo { get; set; }
         public Int64 vacanteID { get; set; }
+        public string Email { get; set; }
+        public string textoEmail { get; set; }
+        public string tituloEmail { get; set; }
     }
 }

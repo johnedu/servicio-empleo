@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 
 namespace servicioEmpleo.Models
@@ -275,7 +277,8 @@ namespace servicioEmpleo.Models
                                                     "[dbo].[Vacante].[Indicativo], " +
                                                     "[dbo].[Vacante].[Celular], " +
                                                     "[dbo].[Vacante].[Direccion], " +
-                                                    "[dbo].[Vacante].[Email]" +
+                                                    "[dbo].[Vacante].[Email]," +
+                                                    "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) AS DiasVence " +
                                             "FROM    [dbo].[Vacante]" +
                                             "WHERE   [dbo].[Vacante].[ID] = " + vacanteID);
 
@@ -313,6 +316,7 @@ namespace servicioEmpleo.Models
                             vacante.Celular = reader.GetString(22);
                             vacante.Direccion = reader.GetString(23);
                             vacante.Email = reader.GetString(24);
+                            vacante.DiasVence = reader.GetInt32(25);
                         }
                         con.Close(); 
                     }
@@ -419,7 +423,28 @@ namespace servicioEmpleo.Models
                         int n = cmd.ExecuteNonQuery();
                         con.Close();
                         if (n > 0)
+                        {
+                            string titulo = "Se ha publicado exitosamente la vacante '" + item.Titulo + "' a través del Servicio de Empleo Móvil";
+                            string mensaje_enviar = "Señor/a " + item.Empleador + "<br/><br/>" +
+                                  "Acaba de publicar una vacante en el Servicio de Empleo Móvil.<br/><br/>" +
+                                  "RESUMEN DE LA VACANTE:<br/><br/>" +
+                                  "Título de la vacante: " + item.Titulo + "<br/>" +
+                                  "Tipo de oportunidad”: " + item.Tipo + "<br/>" +
+                                  "Descripción de la vacante: " + item.Descripcion + "<br/>" +
+                                  "Cargo: " + item.Cargo + "<br/>" +
+                                  "Salario ofrecido: " + item.Salario + "<br/>" +
+                                  "Experiencia mínima requerida: " + item.Experiencia + "<br/>" +
+                                  "Nivel de estudio mínimo requerido”: " + item.Nivel_estudios + "<br/>" +
+                                  "Profesión: " + item.Profesion + "<br/>" +
+                                  "Ubicación: " + item.Departamento + "/" + item.Municipio + "<br/>" +
+                                  "Dirección de referencia: " + item.Direccion + "<br/>" +
+                                  "Correo Electrónico de Contacto: " + item.Email + "<br/>" +
+                                  "Teléfono de Contacto: " + item.Telefono + "<br/><br/>" +
+                                  "Servicio de Empleo Móvil - Este es un correo electrónico automático, por favor no lo responda";
+                            item.Email = "johnedu06@gmail.com";
+                            SendMail("servicioempleomovil@gmail.com", "asdf1234QWER", item.Email, titulo, mensaje_enviar, "", "Servicio de Empleo Móvil", "0");
                             return "Vacante creada correctamente";
+                        }
                         else
                             return "Ocurrió un error al crear la vacante";
                     }
@@ -548,11 +573,11 @@ namespace servicioEmpleo.Models
                                                 "[dbo].[Vacante].[Longitud] = '{15}', " +
                                                 "[dbo].[Vacante].[Empleador] = '{16}', " +
                                                 "[dbo].[Vacante].[Ultima_Actualizacion] = GETDATE(), " +
-                                                "[dbo].[Vacante].[Empleador] = '{17}', " +
-                                                "[dbo].[Vacante].[Empleador] = '{18}', " +
-                                                "[dbo].[Vacante].[Empleador] = '{19}', " +
-                                                "[dbo].[Vacante].[Empleador] = '{20}', " +
-                                                "[dbo].[Vacante].[Empleador] = '{21}'" +
+                                                "[dbo].[Vacante].[Telefono] = '{17}', " +
+                                                "[dbo].[Vacante].[Indicativo] = '{18}', " +
+                                                "[dbo].[Vacante].[Celular] = '{19}', " +
+                                                "[dbo].[Vacante].[Direccion] = '{20}', " +
+                                                "[dbo].[Vacante].[Email] = '{21}'" +
                                             "WHERE [dbo].[Vacante].[ID] = {22}",
                                             item.Titulo,
                                             item.TipoID,
@@ -671,7 +696,7 @@ namespace servicioEmpleo.Models
                                 }
                             }
 
-                            RemoveJobComplaints(item.vacanteID.ToString());
+                            RemoveJobComplaints(item.vacanteID, item.Email, item.tituloEmail, item.textoEmail);
 
                             return "Denuncia creada correctamente";
                         }
@@ -687,7 +712,7 @@ namespace servicioEmpleo.Models
             }
         }
 
-        public string RemoveJobComplaints(string vacanteID)
+        public string RemoveJobComplaints(Int64 vacanteID, string Email, string tituloEmail, string textoEmail)
         {
             try
             {
@@ -705,10 +730,13 @@ namespace servicioEmpleo.Models
                         con.Open();
                         int n = cmd.ExecuteNonQuery();
                         con.Close();
-                        if (n > 0)
+                        if (n > 0) {
+                            Email = "sdanglejan@gmail.com";
+                            SendMail("servicioempleomovil@gmail.com", "asdf1234QWER", Email, tituloEmail, textoEmail, "", "Servicio de Empleo Móvil", "0");
                             return "Vacante eliminada correctamente";
+                        }   
                         else
-                            return "La vacante no pertenece al usuario";
+                            return "Vacante aún activa";
                     }
                 }
             }
@@ -743,8 +771,7 @@ namespace servicioEmpleo.Models
                             denuncia.ID = reader.GetInt64(0);
                             denuncia.Fecha = reader.GetDateTime(1);
                             denuncia.Tipo = reader.GetString(2);
-                            denuncia.vacanteID = reader.GetInt64(3);
-
+                            denuncia.vacanteID = IdJob;
                             denuncias.Add(denuncia);
                         }
                         con.Close();
@@ -756,6 +783,45 @@ namespace servicioEmpleo.Models
                 //Console.Write(e.Message);
             }
             return denuncias.ToArray();
+        }
+
+        public static bool SendMail(string gMailAccount, string password, string to, string subject, string message, string bcc, string DisplayName, string pAttachmentPath)
+        {
+            try
+            {
+                NetworkCredential loginInfo = new NetworkCredential(gMailAccount, password);
+                MailMessage msg = new MailMessage();
+                msg.From = new MailAddress(gMailAccount, DisplayName);
+                string[] tos = to.Split(',');
+                for (int i = 0; i < tos.Length; i++)
+                {
+                    msg.To.Add(new MailAddress(tos[i]));
+                }
+                if (bcc != "")
+                    msg.Bcc.Add(new MailAddress(bcc));
+                msg.Subject = subject;
+                msg.Body = message;
+                msg.IsBodyHtml = true;
+
+                if (pAttachmentPath.Trim() != "0")
+                {
+                    msg.Attachments.Add(new Attachment(pAttachmentPath));
+                }
+
+                msg.Priority = MailPriority.High;
+                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = loginInfo;
+                client.Send(msg);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+                return false;
+            }
         }
     }
 }
