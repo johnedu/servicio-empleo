@@ -190,11 +190,11 @@ namespace servicioEmpleo.Models
                                                     "CASE WHEN GETDATE() BETWEEN [dbo].[Vacante].[Fecha_publicacion] AND [dbo].[Vacante].[Fecha_vencimiento] " +
                                                         "THEN [dbo].[Vacante].[Estado] " +
                                                         "ELSE 'I' END AS Estado, " +
-                                                    "[dbo].[Vacante].[Telefono], " +
-                                                    "[dbo].[Vacante].[Indicativo], " +
-                                                    "[dbo].[Vacante].[Celular], " +
-                                                    "[dbo].[Vacante].[Direccion], " +
-                                                    "[dbo].[Vacante].[Email]" +
+                                                    "ISNULL([dbo].[Vacante].[Telefono],'') AS Telefono, " +
+                                                    "ISNULL([dbo].[Vacante].[Indicativo],'') AS Indicativo, " +
+                                                    "ISNULL([dbo].[Vacante].[Celular],'') AS Celular, " +
+                                                    "ISNULL([dbo].[Vacante].[Direccion],'') AS Direccion, " +
+                                                    "ISNULL([dbo].[Vacante].[Email],'') AS Email " +
                                             "FROM    [dbo].[Vacante] " +
                                             "WHERE   [dbo].[Vacante].[Empleador] = '" + employerUserName + "'" +
                                             "AND     ([dbo].[Vacante].[Estado] = 'A' OR [dbo].[Vacante].[Estado] = 'I')");
