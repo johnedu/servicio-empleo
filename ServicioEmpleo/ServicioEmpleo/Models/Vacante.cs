@@ -24,6 +24,8 @@ namespace servicioEmpleo.Models
         public string Profesion { get; set; }
         public int Municipio { get; set; }
         public int Departamento { get; set; }
+        public string MunicipioNombre { get; set; }
+        public string DepartamentoNombre { get; set; }
         public DateTime Fecha_publicacion { get; set; }
         public DateTime Fecha_vencimiento { get; set; }
         public string Latitud { get; set; }
@@ -43,7 +45,7 @@ namespace servicioEmpleo.Models
 
     public class FAQ
     {
-        public Int32 ID { get; set; }
+        public int ID { get; set; }
         public string Pregunta { get; set; }
         public string Respuesta { get; set; }
     }
@@ -57,5 +59,17 @@ namespace servicioEmpleo.Models
         public string Email { get; set; }
         public string textoEmail { get; set; }
         public string tituloEmail { get; set; }
+    }
+
+    public class Municipio
+    {
+        public int ID { get; set; }
+        public string Nombre { get; set; }
+    }
+
+    public class Departamento
+    {
+        public int ID { get; set; }
+        public string Nombre { get; set; }
     }
 }

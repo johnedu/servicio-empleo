@@ -19,7 +19,10 @@ namespace servicioEmpleo.Models
         string UpdateJob(Vacante item);
         IEnumerable<FAQ> GetAllFAQs();
         string AddComplaint(Denuncia item);
-        string RemoveJobComplaints(Int64 vacanteID, string Email, string tituloEmail, string textoEmail);
-        IEnumerable<Denuncia> GetAllComplaintsByJob(Int64 IdJob);
+        string RemoveJobComplaints(Int64 vacanteID, string email, string tituloEmail, string textoEmail);
+        IEnumerable<Denuncia> GetAllComplaintsByJob(Int64 idJob);
+        IEnumerable<Departamento> GetAllDepartments();
+        IEnumerable<Municipio> GetAllMunicipalities(int department);
+        IEnumerable<Vacante> UpdateFavorites(string listaFavoritas);
     }
 }

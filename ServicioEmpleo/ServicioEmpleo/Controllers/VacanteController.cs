@@ -77,9 +77,24 @@ namespace servicioEmpleo.Controllers
             return repository.AddComplaint(denuncia);
         }
 
-        public IEnumerable<Denuncia> obtenerDenunciasXVacante(Int16 vacanteID)
+        public IEnumerable<Denuncia> obtenerDenunciasXVacante(Int64 vacanteID)
         {
             return repository.GetAllComplaintsByJob(vacanteID);
+        }
+
+        public IEnumerable<Departamento> obtenerDepartamentos()
+        {
+            return repository.GetAllDepartments();
+        }
+
+        public IEnumerable<Municipio> obtenerMunicipios(Int32 departamento)
+        {
+            return repository.GetAllMunicipalities(departamento);
+        }
+
+        public IEnumerable<Vacante> actualizarVacantesFavoritas(string listaFavoritas)
+        {
+            return repository.UpdateFavorites(listaFavoritas);
         }
     }
 }
