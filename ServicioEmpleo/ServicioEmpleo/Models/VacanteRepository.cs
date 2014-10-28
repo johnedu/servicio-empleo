@@ -278,7 +278,7 @@ namespace servicioEmpleo.Models
                                                     "[dbo].[Vacante].[Indicativo], " +
                                                     "[dbo].[Vacante].[Celular], " +
                                                     "[dbo].[Vacante].[Direccion], " +
-                                                    "[dbo].[Vacante].[Email]," +
+                                                    "[dbo].[Vacante].[Email], " +
                                                     "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) AS DiasVence, " +
                                                     "CASE " +
 						                            "    WHEN [dbo].[Vacante].[Tipo] = 1 " +
@@ -350,7 +350,7 @@ namespace servicioEmpleo.Models
                                                     "END AS Nivel_estudios, " +
                                                     "[dbo].[Municipio].[Nombre] AS Munipicio, " +
                                                     "[dbo].[Departamento].[Nombre] AS Departamento " +
-                                            "FROM    [dbo].[Vacante] INNER JOIN [dbo].[Vacante] ON " +
+                                            "FROM    [dbo].[Vacante] INNER JOIN [dbo].[Municipio] ON " +
                                             "        [dbo].[Vacante].[Municipio] = [dbo].[Municipio].[Id] " +
                                             "        INNER JOIN [dbo].[Departamento] ON " +
                                             "        [dbo].[Vacante].[Departamento] = [dbo].[Departamento].[Id] " +
@@ -391,7 +391,6 @@ namespace servicioEmpleo.Models
                             vacante.Direccion = reader.GetString(23);
                             vacante.Email = reader.GetString(24);
                             vacante.DiasVence = reader.GetInt32(25);
-
                             vacante.Tipo = reader.GetString(26);
                             vacante.Salario = reader.GetString(27);
                             vacante.Experiencia = reader.GetString(28);
