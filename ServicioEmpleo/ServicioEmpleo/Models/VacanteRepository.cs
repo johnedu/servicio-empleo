@@ -359,7 +359,7 @@ namespace servicioEmpleo.Models
                                                     "ISNULL([dbo].[Vacante].[Indicativo],'') AS Indicativo, " +
                                                     "ISNULL([dbo].[Vacante].[Celular],'') AS Celular, " +
                                                     "ISNULL([dbo].[Vacante].[Direccion],'') AS Direccion, " +
-                                                    "ISNULL([dbo].[Vacante].[Email],'') AS Email " +
+                                                    "ISNULL([dbo].[Vacante].[Email],'') AS Email, " +
                                                     "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) AS DiasVence, " +
                                                     "CASE " +
 						                            "    WHEN [dbo].[Vacante].[Tipo] = 1 " +
