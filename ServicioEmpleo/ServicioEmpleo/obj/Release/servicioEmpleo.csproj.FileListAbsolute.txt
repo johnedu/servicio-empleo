@@ -1,0 +1,14 @@
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\ServicioEmpleo.dll.config
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\ServicioEmpleo.dll
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\ServicioEmpleo.pdb
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\Newtonsoft.Json.dll
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\System.Net.Http.Formatting.dll
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\System.Web.Http.dll
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\System.Web.Http.WebHost.dll
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\Newtonsoft.Json.xml
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\System.Net.Http.Formatting.xml
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\System.Web.Http.xml
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\bin\System.Web.Http.WebHost.xml
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\obj\Release\servicioEmpleo.csprojResolveAssemblyReference.cache
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\obj\Release\ServicioEmpleo.dll
+C:\Users\johne\Documents\GitHub\servicio-empleo\ServicioEmpleo\ServicioEmpleo\obj\Release\ServicioEmpleo.pdb

@@ -272,7 +272,8 @@ namespace servicioEmpleo.Models
                                             "        [dbo].[Vacante].[Departamento] = [dbo].[Departamento].[Id] " +
                                             "WHERE   [dbo].[Vacante].[Empleador] = '" + employerUserName + "'" +
                                             "AND     ([dbo].[Vacante].[Estado] = 'A' OR [dbo].[Vacante].[Estado] = 'I') " +
-                                            "ORDER BY	[dbo].[Vacante].[Fecha_vencimiento] ASC");
+                                            "ORDER BY	Estado ASC, " +
+                                            "           [dbo].[Vacante].[Fecha_vencimiento] ASC");
 
                 using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
                 {
@@ -564,7 +565,8 @@ namespace servicioEmpleo.Models
                                              item.Profesion,
                                              item.Municipio,
                                              item.Departamento, 
-                                             item.Fecha_publicacion.ToString("yyyy-MM-dd HH:mm:ss"),
+                                             //item.Fecha_publicacion.ToString("yyyy-MM-dd HH:mm:ss"),
+                                             "'GETDATE()'",
                                              item.Fecha_vencimiento.ToString("yyyy-MM-dd HH:mm:ss"),
                                              item.Latitud, 
                                              item.Longitud, 
@@ -753,7 +755,8 @@ namespace servicioEmpleo.Models
                                             item.Profesion,
                                             item.Municipio,
                                             item.Departamento,
-                                            item.Fecha_publicacion.ToString("yyyy-MM-dd HH:mm:ss"),
+                                            //item.Fecha_publicacion.ToString("yyyy-MM-dd HH:mm:ss"),
+                                            "'GETDATE()'",
                                             item.Fecha_vencimiento.ToString("yyyy-MM-dd HH:mm:ss"),
                                             item.Latitud,
                                             item.Longitud,
