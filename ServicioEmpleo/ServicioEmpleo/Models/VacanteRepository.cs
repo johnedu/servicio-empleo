@@ -539,7 +539,7 @@ namespace servicioEmpleo.Models
                                                 "'{9}', " +
                                                 "{10}, " +
                                                 "{11}, " +
-                                                "'{12}', " +
+                                                "{12}, " +
                                                 "'{13}', " +
                                                 "'{14}', " +
                                                 "'{15}', " +
@@ -731,7 +731,7 @@ namespace servicioEmpleo.Models
                                                 "[dbo].[Vacante].[Profesion] = '{9}', " +
                                                 "[dbo].[Vacante].[Municipio] = {10}, " +
                                                 "[dbo].[Vacante].[Departamento] = {11}, " +
-                                                "[dbo].[Vacante].[Fecha_publicacion] = '{12}', " +
+                                                "[dbo].[Vacante].[Fecha_publicacion] = {12}, " +
                                                 "[dbo].[Vacante].[Fecha_vencimiento] = '{13}', " +
                                                 "[dbo].[Vacante].[Latitud] = '{14}', " +
                                                 "[dbo].[Vacante].[Longitud] = '{15}', " +
