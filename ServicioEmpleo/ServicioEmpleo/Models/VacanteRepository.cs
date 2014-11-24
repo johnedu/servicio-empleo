@@ -195,7 +195,7 @@ namespace servicioEmpleo.Models
                                                     "ISNULL([dbo].[Vacante].[Celular],'') AS Celular, " +
                                                     "ISNULL([dbo].[Vacante].[Direccion],'') AS Direccion, " +
                                                     "ISNULL([dbo].[Vacante].[Email],'') AS Email, " +
-                                                    "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) AS DiasVence, " +
+                                                    "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) + 1 AS DiasVence, " +
                                                     "CASE " +
                                                     "    WHEN [dbo].[Vacante].[Tipo] = 1 " +
                                                     "        THEN 'Empleo' " +
@@ -362,7 +362,7 @@ namespace servicioEmpleo.Models
                                                     "ISNULL([dbo].[Vacante].[Celular],'') AS Celular, " +
                                                     "ISNULL([dbo].[Vacante].[Direccion],'') AS Direccion, " +
                                                     "ISNULL([dbo].[Vacante].[Email],'') AS Email, " +
-                                                    "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) AS DiasVence, " +
+                                                    "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) + 1 AS DiasVence, " +
                                                     "CASE " +
 						                            "    WHEN [dbo].[Vacante].[Tipo] = 1 " +
 							                        "        THEN 'Empleo' " +
