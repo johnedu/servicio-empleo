@@ -198,12 +198,14 @@ namespace servicioEmpleo.Models
                                                     "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) + 1 AS DiasVence, " +
                                                     "CASE " +
                                                     "    WHEN [dbo].[Vacante].[Tipo] = 1 " +
-                                                    "        THEN 'Empleo' " +
+                                                    "        THEN 'Contrato laboral' " +
                                                     "    WHEN [dbo].[Vacante].[Tipo] = 2 " +
-                                                    "        THEN 'Pasantía' " +
+                                                    "        THEN 'Prestación de servicios' " +
                                                     "    WHEN [dbo].[Vacante].[Tipo] = 3 " +
-                                                    "        THEN 'Práctica laboral' " +
+                                                    "        THEN 'Pasantía' " +
                                                     "    WHEN [dbo].[Vacante].[Tipo] = 4 " +
+                                                    "        THEN 'Práctica laboral' " +
+                                                    "    WHEN [dbo].[Vacante].[Tipo] = 5 " +
                                                     "        THEN 'Contrato de aprendizaje' " +
                                                     "END AS Tipo, " +
                                                     "CASE " +
@@ -218,7 +220,7 @@ namespace servicioEmpleo.Models
                                                     "    WHEN [dbo].[Vacante].[Salario] = 4 " +
                                                     "        THEN 'Más de 3 SMMLV hasta 5 SMMLV' " +
                                                     "    WHEN [dbo].[Vacante].[Salario] = 5 " +
-                                                    "        THEN '[5] Más de 5 SMMLV hasta 7 SMMLV' " +
+                                                    "        THEN 'Más de 5 SMMLV hasta 7 SMMLV' " +
                                                     "    WHEN [dbo].[Vacante].[Salario] = 6 " +
                                                     "        THEN 'Más de 7 SMMLV' " +
                                                     "    WHEN [dbo].[Vacante].[Salario] = 7 " +
@@ -365,12 +367,14 @@ namespace servicioEmpleo.Models
                                                     "DATEDIFF(DAY, GETDATE(), [dbo].[Vacante].[Fecha_vencimiento]) + 1 AS DiasVence, " +
                                                     "CASE " +
 						                            "    WHEN [dbo].[Vacante].[Tipo] = 1 " +
-							                        "        THEN 'Empleo' " +
-						                            "    WHEN [dbo].[Vacante].[Tipo] = 2 " +
-							                        "        THEN 'Pasantía' " +
+							                        "        THEN 'Contrato laboral' " +
+                                                    "    WHEN [dbo].[Vacante].[Tipo] = 2 " +
+                                                    "        THEN 'Prestación de servicios' " +
 						                            "    WHEN [dbo].[Vacante].[Tipo] = 3 " +
-							                        "        THEN 'Práctica laboral' " +
+							                        "        THEN 'Pasantía' " +
 						                            "    WHEN [dbo].[Vacante].[Tipo] = 4 " +
+							                        "        THEN 'Práctica laboral' " +
+						                            "    WHEN [dbo].[Vacante].[Tipo] = 5 " +
 							                        "        THEN 'Contrato de aprendizaje' " +
                                                     "END AS Tipo, " +
                                                     "CASE " +
@@ -605,7 +609,6 @@ namespace servicioEmpleo.Models
                                   "Correo Electrónico de Contacto: " + item.Email + "<br/>" +
                                   "Teléfono de Contacto: " + item.Telefono + "<br/><br/>" +
                                   "Servicio de Empleo Móvil - Este es un correo electrónico automático, por favor no lo responda";
-                            item.Email = "johnedu06@gmail.com";
                             SendMail("servicioempleomovil@gmail.com", "asdf1234QWER", item.Email, titulo, mensaje_enviar, "", "Servicio de Empleo Móvil", "0");
                             return "Vacante creada correctamente";
                         }
@@ -896,7 +899,6 @@ namespace servicioEmpleo.Models
                         int n = cmd.ExecuteNonQuery();
                         con.Close();
                         if (n > 0) {
-                            email = "sdanglejan@gmail.com";
                             SendMail("servicioempleomovil@gmail.com", "asdf1234QWER", email, tituloEmail, textoEmail, "", "Servicio de Empleo Móvil", "0");
                             return "Vacante eliminada correctamente";
                         }   
