@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -10,6 +11,7 @@ namespace servicioEmpleo.Models
 {
     public class VacanteRepository : IVacanteRepository
     {
+        string connStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         public IEnumerable<Vacante> GetAll()
         {
             List<Vacante> vacantes = new List<Vacante>();
@@ -35,7 +37,7 @@ namespace servicioEmpleo.Models
                                                     "[dbo].[Vacante].[Ultima_Actualizacion] " +
                                             "FROM    [dbo].[Vacante]");
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -83,7 +85,7 @@ namespace servicioEmpleo.Models
             List<Vacante> vacantes = new List<Vacante>();
             try {
                 string query = string.Format("EXEC [stp_Vacantes_FullTextSearch] '" + palabra + "', " + tipo + ", " + salario + ", " + experiencia + ", " + nivel + ", " + municipio + ", 'N' WITH RECOMPILE");
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -136,7 +138,7 @@ namespace servicioEmpleo.Models
             List<Vacante> vacantes = new List<Vacante>();
             try {
                 string query = string.Format("EXEC [stp_Vacantes_FullTextSearch] '" + palabra + "', " + tipo + ", " + salario + ", " + experiencia + ", " + nivel + ", " + municipio + ", 'M' WITH RECOMPILE");
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -277,7 +279,7 @@ namespace servicioEmpleo.Models
                                             "ORDER BY	Estado ASC, " +
                                             "           [dbo].[Vacante].[Fecha_vencimiento] ASC");
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -443,7 +445,7 @@ namespace servicioEmpleo.Models
                                             "        [dbo].[Vacante].[Departamento] = [dbo].[Departamento].[Id] " +
                                             "WHERE   [dbo].[Vacante].[ID] = " + vacanteID);
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -583,7 +585,7 @@ namespace servicioEmpleo.Models
                                              item.Celular,
                                              item.Direccion,
                                              item.Email);
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -628,7 +630,7 @@ namespace servicioEmpleo.Models
         //{
         //    try {
         //        string query = string.Format("DELETE FROM [dbo].[Vacante] WHERE [dbo].[Vacante].[ID] = {0} AND [dbo].[Vacante].[Empleador] = '{1}'", vacanteID, empleador);
-        //        using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+        //        using (SqlConnection con = new SqlConnection(connStr))
         //        {
         //            using (SqlCommand cmd = new SqlCommand(query, con))
         //            {
@@ -661,7 +663,7 @@ namespace servicioEmpleo.Models
                                             vacanteID,
                                             empleador);
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -696,7 +698,7 @@ namespace servicioEmpleo.Models
                                             "AND [dbo].[Vacante].[Empleador] = '{1}' ",
                                             vacanteID,
                                             empleador);
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -771,7 +773,7 @@ namespace servicioEmpleo.Models
                                             item.Email,
                                             item.ID);
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -801,7 +803,7 @@ namespace servicioEmpleo.Models
                                                     "[dbo].[Preguntas_frecuentes].[Respuesta]" +
                                             "FROM    [dbo].[Preguntas_frecuentes]");
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -841,7 +843,7 @@ namespace servicioEmpleo.Models
                                                 "'{1}')",
                                              item.Tipo,
                                              item.vacanteID);
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -854,7 +856,7 @@ namespace servicioEmpleo.Models
                                             "SET [dbo].[Vacante].[Num_denuncias] = [dbo].[Vacante].[Num_denuncias] + 1 " +
                                             "WHERE [dbo].[Vacante].[ID] = {0} ",
                                             item.vacanteID);
-                            using (SqlConnection con2 = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                            using (SqlConnection con2 = new SqlConnection(connStr))
                             {
                                 using (SqlCommand cmd2 = new SqlCommand(query2, con2))
                                 {
@@ -891,7 +893,7 @@ namespace servicioEmpleo.Models
                                             "AND [dbo].[Vacante].[Num_denuncias] > 2 ",
                                             vacanteID);
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -925,7 +927,7 @@ namespace servicioEmpleo.Models
                                             "FROM    [dbo].[Denuncias] " +
                                             "WHERE   [dbo].[Denuncias].[ID_vacante] = " + idJob);
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -961,7 +963,7 @@ namespace servicioEmpleo.Models
                                                     "[dbo].[Departamento].[Nombre] " +
                                             "FROM    [dbo].[Departamento]");
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -996,7 +998,7 @@ namespace servicioEmpleo.Models
                                             "FROM    [dbo].[Municipio] " +
                                             "WHERE   [dbo].[Municipio].[Departamento] = " + department);
 
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -1027,7 +1029,7 @@ namespace servicioEmpleo.Models
             try
             {
                 string query = string.Format("EXEC [stp_Vacantes_BuscarFavoritas] '" + listaFavoritas + "' WITH RECOMPILE");
-                using (SqlConnection con = new SqlConnection("Server=966aafe3-077b-4d00-b57c-a3a00010872a.sqlserver.sequelizer.com;Database=db966aafe3077b4d00b57ca3a00010872a;User ID=ciatmhpgrdfmfmes;Password=eBpvohJoCGFdGGmuXt8Gjf8ngtPRUfJa7R5M67Z7SUq6SEQh62N2DLG7Bbo4AZBw;"))
+                using (SqlConnection con = new SqlConnection(connStr))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
